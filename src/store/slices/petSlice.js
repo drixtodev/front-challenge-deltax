@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_PETS_URL } from "../../config";
 
 export const listPets = createAsyncThunk("pets/listPets", async () => {
-  const response = await axios("http://192.168.0.82:4000/api/v1/pets");
+  const response = await axios(API_PETS_URL);
 
   return response.data.pets;
 });
@@ -10,7 +11,7 @@ export const listPets = createAsyncThunk("pets/listPets", async () => {
 export const createPet = createAsyncThunk(
   "pets/createPet",
   async ({ name, lat, lng, urlImage }) => {
-    const response = await axios.post("http://192.168.0.82:4000/api/v1/pets", {
+    const response = await axios.post(API_PETS_URL, {
       name,
       lat,
       lng,
