@@ -1,20 +1,20 @@
-import axios from "axios";
 import useSWR, { mutate } from "swr";
 import { API_PETS_URL } from "../../config";
+import { fetcherLostPetsApi } from "../../lib/axios";
 import { generateRandomUUID } from "../../lib/uuid";
 import { createPet } from "../repositories/PetsReposity";
 
-const fetcher = (url) => axios(url).then((res) => res.data.pets);
-
 export const usePets = () => {
-  const { data } = useSWR(API_PETS_URL, fetcher);
+  const { data } = useSWR(API_PETS_URL, fetcherLostPetsApi);
 
   const addPet = (pet) => {
-    const newPet = { ...pet, _id: generateRandomUUID() };
-    const optimisticData = [...(data || []), newPet];
-    mutate(
+    const optimisticData = {
+      pets: [...(data.pets || []), { ...pet, _id: generateRandomUUID() }],
+      status: "OK",
+    };
+    return mutate(
       API_PETS_URL,
-      createPet(pet).then(() => mutate(API_PETS_URL)),
+      createPet(pet).then(() => optimisticData),
       {
         optimisticData,
         rollbackOnError: true,
@@ -23,7 +23,7 @@ export const usePets = () => {
   };
 
   return {
-    pets: data || [],
+    pets: data?.pets || [],
     addPet,
   };
 };

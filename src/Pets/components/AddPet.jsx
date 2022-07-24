@@ -1,19 +1,19 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { usePets } from "../hooks/usePets";
+import { defaultLostPet } from "../pet";
 
 const AddPet = () => {
   const { addPet } = usePets();
-  const [pet, setPet] = useState({
-    name: "",
-    lat: "",
-    lng: "",
-    urlImage: "",
-  });
+  const [pet, setPet] = useState(defaultLostPet);
 
   const HandleSubmit = (event) => {
     event.preventDefault();
-    addPet(pet);
+    addPet(pet)
+      .then(() => setPet(defaultLostPet))
+      .catch(() => {
+        setPet(pet);
+      });
   };
 
   return (
@@ -38,21 +38,21 @@ const AddPet = () => {
           />
           <TextField
             fullWidth
-            label="Name Pet"
+            label="Location Latitude"
             variant="outlined"
             value={pet.lat}
             onChange={(e) => setPet({ ...pet, lat: e.target.value })}
           />
           <TextField
             fullWidth
-            label="Name Pet"
+            label="Location Longitude"
             variant="outlined"
             value={pet.lng}
             onChange={(e) => setPet({ ...pet, lng: e.target.value })}
           />
           <TextField
             fullWidth
-            label="Name Pet"
+            label="Image URL"
             variant="outlined"
             value={pet.urlImage}
             onChange={(e) => setPet({ ...pet, urlImage: e.target.value })}
