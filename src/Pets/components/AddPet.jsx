@@ -1,33 +1,26 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import { usePets } from "../hooks/usePets";
 
-function CreateNewPet({ addPet }) {
-  const [name, setName] = useState("");
-  const [lat, setLat] = useState("");
-  const [lng, setLng] = useState("");
-  const [urlImage, setUrlImage] = useState("");
+const AddPet = () => {
+  const { addPet } = usePets();
+  const [pet, setPet] = useState({
+    name: "",
+    lat: "",
+    lng: "",
+    urlImage: "",
+  });
 
   const HandleSubmit = (event) => {
     event.preventDefault();
-    if (
-      name.length > 0 &&
-      lat.length > 0 &&
-      lng.length > 0 &&
-      urlImage.length > 0
-    ) {
-      addPet({ name, lat, lng, urlImage });
-      setName("");
-      setLat("");
-      setLng("");
-      setUrlImage("");
-    }
+    addPet(pet);
   };
 
   return (
-    <Paper elevation={3} sx={{ minWidth: "300px" }}>
+    <Paper>
       <Box p={2} display="flex" flexDirection="column" gap={2}>
         <Typography variant="h5" fontWeight="bold">
-          Create New Pet
+          Add Pet
         </Typography>
         <Box
           component="form"
@@ -38,31 +31,31 @@ function CreateNewPet({ addPet }) {
         >
           <TextField
             fullWidth
-            label="Name"
+            label="Name Pet"
             variant="outlined"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={pet.name}
+            onChange={(e) => setPet({ ...pet, name: e.target.value })}
           />
           <TextField
             fullWidth
-            label="Latitude"
+            label="Name Pet"
             variant="outlined"
-            value={lat}
-            onChange={(e) => setLat(e.target.value)}
+            value={pet.lat}
+            onChange={(e) => setPet({ ...pet, lat: e.target.value })}
           />
           <TextField
             fullWidth
-            label="Longitude"
+            label="Name Pet"
             variant="outlined"
-            value={lng}
-            onChange={(e) => setLng(e.target.value)}
+            value={pet.lng}
+            onChange={(e) => setPet({ ...pet, lng: e.target.value })}
           />
           <TextField
             fullWidth
-            label="Url Image"
+            label="Name Pet"
             variant="outlined"
-            value={urlImage}
-            onChange={(e) => setUrlImage(e.target.value)}
+            value={pet.urlImage}
+            onChange={(e) => setPet({ ...pet, urlImage: e.target.value })}
           />
           <Button fullWidth variant="contained" type="submit">
             Add Pet
@@ -71,6 +64,6 @@ function CreateNewPet({ addPet }) {
       </Box>
     </Paper>
   );
-}
+};
 
-export default CreateNewPet;
+export default AddPet;
