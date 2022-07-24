@@ -1,16 +1,22 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { usePets } from "../hooks/usePets";
-import { defaultLostPet } from "../pet";
+
+const initialStateLostPet = {
+  name: "",
+  lat: "",
+  lng: "",
+  urlImage: "",
+};
 
 const AddPet = () => {
   const { addPet } = usePets();
-  const [pet, setPet] = useState(defaultLostPet);
+  const [pet, setPet] = useState(initialStateLostPet);
 
   const HandleSubmit = (event) => {
     event.preventDefault();
     addPet(pet)
-      .then(() => setPet(defaultLostPet))
+      .then(() => setPet(initialStateLostPet))
       .catch(() => {
         setPet(pet);
       });
