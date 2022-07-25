@@ -1,7 +1,8 @@
 import axios from "axios";
+import { URL_API_LOST_PETS } from "../config";
 
 const ApiLostPetsInstance = axios.create({
-  baseURL: "https://api-challenge-deltax-production.up.railway.app/api/v1",
+  baseURL: URL_API_LOST_PETS,
 });
 
 export const fetcherLostPetsApi = (url) =>
