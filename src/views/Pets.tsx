@@ -9,7 +9,7 @@ import { GoogleMap, Marker } from '@react-google-maps/api';
 import { useAppContext } from 'context/AppContext';
 
 function Pets() {
-	const { isLoadedGoogleMaps, selectedPet } = useAppContext();
+	const { isLoadedGoogleMaps, selectedPet, setSelectedPet } = useAppContext();
 	const { addNewPet } = usePets();
 
 	const HandleSubmit = useCallback(
@@ -19,10 +19,6 @@ function Pets() {
 		[addNewPet]
 	);
 
-	useEffect(() => {
-		console.log(selectedPet);
-	}, [selectedPet]);
-
 	return (
 		<Grid container spacing={2} paddingY={10} margin={0}>
 			<Grid item xs={12} sm={5} lg={4} xl={3}>
@@ -31,14 +27,18 @@ function Pets() {
 			<Grid item xs={12} sm={7} lg={8} xl={9}>
 				<ListPets />
 			</Grid>
-			<Dialog fullWidth maxWidth='sm' open={selectedPet ? true : false}>
+			<Dialog
+				fullWidth
+				maxWidth='sm'
+				open={selectedPet ? true : false}
+				onClose={() => setSelectedPet?.(undefined)}>
 				<DialogContent>
 					<Grid container spacing={2}>
 						<Grid item xs={12}>
-							<Typography variant='h6'>Pet</Typography>
+							<Typography variant='h6'>{selectedPet?.name}</Typography>
 						</Grid>
 						<Grid item xs={12}>
-							{isLoadedGoogleMaps && (
+							{isLoadedGoogleMaps && selectedPet?.location.latitude && (
 								<GoogleMap
 									mapContainerStyle={{ width: '100%', height: 600 }}
 									center={{

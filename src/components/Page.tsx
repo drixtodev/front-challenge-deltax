@@ -10,9 +10,6 @@ export default function Page({ children }: { children: ReactNode }) {
 					<Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
 						Lost Pets
 					</Typography>
-					<Button component={Link} color='inherit' to='/'>
-						Home
-					</Button>
 					<Button component={Link} color='inherit' to='/pets'>
 						Pets
 					</Button>
